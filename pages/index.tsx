@@ -130,7 +130,7 @@ export default function Home() {
             setWalletPrivateKey(wallet.privateKey);
             setWallet(wallet);
           }}
-          className="btn"
+          className="text-black"
         >
           Generate
         </Button>
