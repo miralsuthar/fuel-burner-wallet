@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import { generateWallet } from "@/utils";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FuelContext } from "./_app";
 import { BaseAssetId, WalletUnlocked, Address as TrasnferAddress } from "fuels";
 import { QRCodeSVG } from "qrcode.react";
@@ -31,6 +31,12 @@ export default function Home() {
     ""
   );
 
+  const [svgAddress, setSvgAddress] = useState<string>("");
+
+  useEffect(() => {
+    setSvgAddress(wallet.address.toString());
+  }, [wallet]);
+
   const [address, setAddress] = useState<string>();
   const [amount, setAmount] = useState<any>();
 
@@ -56,33 +62,35 @@ export default function Home() {
 
   return (
     <main
-      className={`flex min-h-screen flex-col items-center justify-center gap-10 ${inter.className}`}
+      className={`flex min-h-screen relative flex-col items-center justify-center gap-10 ${inter.className}`}
     >
       {wallet ? (
         <>
           <Address address={wallet.address?.toString()} />
           <Balance balance={balance} refetch={() => refetch()} />
-          <QRCodeSVG
-            className="w-9/12 h-80"
-            value={wallet?.address?.toString()}
-          />
+
+          <QRCodeSVG className="w-9/12 h-80" value={svgAddress} />
 
           {isScanning && (
-            <div className="absolute top-0 left-0">
-              <QrReader
-                delay={300}
-                onError={(e) => {
-                  console.log(e);
-                }}
-                onScan={(e) => {
-                  if (e !== null) {
-                    setAddress(e);
-                    setIsScanning(false);
-                  }
-                }}
-                style={{ width: "60%" }}
-              />
-            </div>
+            <>
+              <div className="h-screen w-screen absolute top-0 left-0 backdrop-blur-md">
+                <div className="w-6/12 flex flex-col justify-center items-center gap-4 h-2/4 top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 absolute">
+                  <QrReader
+                    onError={(e) => {
+                      console.log(e);
+                    }}
+                    onScan={(e) => {
+                      if (e !== null) {
+                        setAddress(e);
+                        setIsScanning(false);
+                      }
+                    }}
+                    style={{ width: "100%" }}
+                  />
+                  <Button onClick={() => setIsScanning(false)}>Stop</Button>
+                </div>
+              </div>
+            </>
           )}
           <Button onClick={() => setIsScanning(true)}>Scan</Button>
           <div className="flex flex-col gap-4">
