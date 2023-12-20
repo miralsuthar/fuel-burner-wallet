@@ -11,8 +11,8 @@ export const Balance = ({
   return (
     <div className="flex justify-center items-center gap-3">
       <span>{balance} ETH</span>
-      <Button onClick={refetch}>
-        <RefreshCcw size={16} />
+      <Button variant={"outline"} onClick={refetch}>
+        <RefreshCcw className="text-black" size={16} />
       </Button>
     </div>
   );

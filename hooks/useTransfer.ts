@@ -1,12 +1,10 @@
 import {
-  AbstractAddress,
   BigNumberish,
   WalletUnlocked,
   Address as TransferAddress,
   Provider,
   BaseAssetId,
 } from "fuels";
-import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 
 export const useTransfer = (

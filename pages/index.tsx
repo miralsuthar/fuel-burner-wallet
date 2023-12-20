@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import { generateWallet } from "@/utils";
 import { useContext, useEffect, useState } from "react";
 import { FuelContext } from "./_app";
-import { BaseAssetId, WalletUnlocked, Address as TrasnferAddress } from "fuels";
+import { WalletUnlocked } from "fuels";
 import { QRCodeSVG } from "qrcode.react";
 import { Button } from "@/components/ui/button";
 import { Balance } from "@/components/Balance";
@@ -12,17 +12,9 @@ import QrReader from "react-qr-reader-es6";
 import { useLocalStorage } from "usehooks-ts";
 import { useBalance } from "@/hooks/useBalance";
 import { useTransfer } from "@/hooks/useTransfer";
+import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
-
-// type wallet = {
-//   address: string;
-//   provider: {
-//     operations: {};
-//     options: {};
-//     url: string;
-//   };
-// };
 
 export default function Home() {
   const { provider } = useContext(FuelContext);
@@ -66,29 +58,29 @@ export default function Home() {
 
   const [isScanning, setIsScanning] = useState(false);
 
-  // const transfer = async () => {
-  //   const transferAddress = new TrasnferAddress(address as `fuel${string}`);
-  //   // await wallet?.transfer(transferAddress, amount, BaseAssetId, {
-  //   //   gasLimit: 10_000,
-  //   //   gasPrice: 10_000,
-  //   // });
-  //   const unlockedWallet = new WalletUnlocked(walletPrivateKey, provider!);
-  //   await unlockedWallet.transfer(transferAddress, amount, BaseAssetId, {
-  //     gasLimit: 10_000,
-  //     gasPrice: 10_000,
-  //   });
-  // };
-
   return (
     <main
-      className={`flex min-h-screen relative flex-col items-center justify-center gap-10 ${inter.className}`}
+      className={`flex min-h-screen relative text-white bg-black flex-col items-center justify-center gap-10 ${inter.className}`}
     >
+      <h1 className="text-3xl font-bold text-[#00F58B]">Funk Wallet</h1>
       {isLoaded && wallet ? (
         <>
           <Address address={wallet.address?.toString()} />
           <Balance balance={balance} refetch={() => refetch()} />
 
-          <QRCodeSVG className="w-9/12 h-80" value={svgAddress} />
+          <div className="w-max h-80 relative">
+            <Image
+              src="/fuel-logo.png"
+              className="absolute border-[10px] border-white top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4"
+              alt="logo"
+              width={70}
+              height={70}
+            />
+            <QRCodeSVG
+              className="w-full h-full border-[5px] border-white rounded-md"
+              value={svgAddress}
+            />
+          </div>
 
           {isScanning && (
             <>
@@ -111,8 +103,10 @@ export default function Home() {
               </div>
             </>
           )}
-          <Button onClick={() => setIsScanning(true)}>Scan</Button>
-          <div className="flex flex-col gap-4">
+          <Button variant={"destructive"} onClick={() => setIsScanning(true)}>
+            Scan
+          </Button>
+          <div className="flex flex-col text-black gap-4">
             <Input
               placeholder="address"
               value={address}
@@ -123,11 +117,14 @@ export default function Home() {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
-            <Button onClick={() => transfer()}>Transfer</Button>
+            <Button variant={"outline"} onClick={() => transfer()}>
+              Transfer
+            </Button>
           </div>
         </>
       ) : (
         <Button
+          variant={"outline"}
           onClick={() => {
             const wallet = generateWallet(provider!);
             setWalletPrivateKey(wallet.privateKey);
