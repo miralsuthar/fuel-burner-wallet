@@ -25,7 +25,11 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const { provider } = useContext(FuelContext);
-  const [wallet, setWallet] = useLocalStorage("wallet", {} as WalletUnlocked);
+  const [wallet, setWallet] = useLocalStorage<WalletUnlocked | null>(
+    "wallet",
+    null
+  );
+  const [isLoaded, setIsLoaded] = useState(false);
   const [walletPrivateKey, setWalletPrivateKey] = useLocalStorage(
     "walletPrivateKey",
     ""
@@ -34,7 +38,15 @@ export default function Home() {
   const [svgAddress, setSvgAddress] = useState<string>("");
 
   useEffect(() => {
-    setSvgAddress(wallet.address.toString());
+    if (window !== undefined) {
+      setIsLoaded(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (wallet) {
+      setSvgAddress(wallet.address.toString());
+    }
   }, [wallet]);
 
   const [address, setAddress] = useState<string>();
@@ -64,7 +76,7 @@ export default function Home() {
     <main
       className={`flex min-h-screen relative flex-col items-center justify-center gap-10 ${inter.className}`}
     >
-      {wallet ? (
+      {isLoaded && wallet ? (
         <>
           <Address address={wallet.address?.toString()} />
           <Balance balance={balance} refetch={() => refetch()} />
