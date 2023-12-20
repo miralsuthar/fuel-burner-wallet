@@ -1,13 +1,12 @@
 import {
-  BigNumberish,
   WalletUnlocked,
   Address as TransferAddress,
   Provider,
   BaseAssetId,
   bn,
-} from 'fuels';
-import { useToast } from '@/components/ui/use-toast';
-import { currencyDecimals } from '@/lib/utils';
+} from "fuels";
+import { useToast } from "@/components/ui/use-toast";
+import { currencyDecimals } from "@/lib/utils";
 
 export const useTransfer = (
   address: `fuel${string}`,
@@ -23,8 +22,8 @@ export const useTransfer = (
     try {
       if (!amount) {
         toast({
-          title: 'Amount is required',
-          variant: 'destructive',
+          title: "Amount is required",
+          variant: "destructive",
         });
         return;
       }
@@ -38,13 +37,13 @@ export const useTransfer = (
         }
       );
       toast({
-        title: 'ETHER Transfer successfully',
-        variant: 'default',
+        title: "ETHER Transfer successfully",
+        variant: "default",
       });
     } catch (error) {
       toast({
-        title: 'Error transfering ETHER',
-        variant: 'destructive',
+        title: "Error transfering ETHER",
+        variant: "destructive",
       });
     }
   };
