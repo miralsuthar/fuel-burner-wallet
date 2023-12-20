@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 export const Address = ({ address }: { address: string }) => {
   const copyAddress = async () => {
-    await navigator.clipboard.writeText(address?.substring(4));
+    await navigator.clipboard.writeText(address);
   };
 
   const [isLoad, setIsLoad] = useState(false);

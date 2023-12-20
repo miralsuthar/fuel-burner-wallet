@@ -1,5 +1,8 @@
-import { RefreshCcw } from "lucide-react";
-import { Button } from "./ui/button";
+import { RefreshCcw } from 'lucide-react';
+import { Button } from './ui/button';
+import { currencyDecimals } from '@/lib/utils'
+
+
 
 export const Balance = ({
   balance,
@@ -9,10 +12,10 @@ export const Balance = ({
   refetch: () => void;
 }) => {
   return (
-    <div className="flex justify-center items-center gap-3">
-      <span>{balance} ETH</span>
-      <Button variant={"outline"} onClick={refetch}>
-        <RefreshCcw className="text-black" size={16} />
+    <div className='flex justify-center items-center gap-3'>
+      <span>{balance / Math.pow(10, currencyDecimals)} ETH</span>
+      <Button variant={'outline'} onClick={refetch}>
+        <RefreshCcw className='text-black' size={16} />
       </Button>
     </div>
   );
