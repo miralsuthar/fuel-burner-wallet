@@ -49,8 +49,8 @@ export default function Home() {
     }
   }, [wallet]);
 
-  const [address, setAddress] = useState<string>();
-  const [amount, setAmount] = useState<any>();
+  const [address, setAddress] = useState<string>("");
+  const [amount, setAmount] = useState<any>(0);
 
   const { balance, refetch } = useBalance(
     wallet?.address?.toString() as `fuel${string}`,
@@ -86,7 +86,7 @@ export default function Home() {
           {isScanning && (
             <>
               <div className="h-screen w-screen absolute top-0 left-0 backdrop-blur-md">
-                <div className="w-6/12 flex flex-col justify-center items-center gap-4 h-2/4 top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 absolute">
+                <div className="w-full md:w-6/12 flex flex-col justify-center items-center gap-4 h-2/4 top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 absolute">
                   <QrReader
                     onError={(e) => {
                       console.log(e);
