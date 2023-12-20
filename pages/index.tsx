@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import QrReader from "react-qr-reader-es6";
 import { useLocalStorage } from "usehooks-ts";
 import { useBalance } from "@/hooks/useBalance";
+import { useTransfer } from "@/hooks/useTransfer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -56,21 +57,27 @@ export default function Home() {
     wallet?.address?.toString() as `fuel${string}`,
     provider!
   );
+  const { transfer } = useTransfer(
+    address as `fuel${string}`,
+    amount,
+    walletPrivateKey,
+    provider!
+  );
 
   const [isScanning, setIsScanning] = useState(false);
 
-  const transfer = async () => {
-    const transferAddress = new TrasnferAddress(address as `fuel${string}`);
-    // await wallet?.transfer(transferAddress, amount, BaseAssetId, {
-    //   gasLimit: 10_000,
-    //   gasPrice: 10_000,
-    // });
-    const unlockedWallet = new WalletUnlocked(walletPrivateKey, provider!);
-    await unlockedWallet.transfer(transferAddress, amount, BaseAssetId, {
-      gasLimit: 10_000,
-      gasPrice: 10_000,
-    });
-  };
+  // const transfer = async () => {
+  //   const transferAddress = new TrasnferAddress(address as `fuel${string}`);
+  //   // await wallet?.transfer(transferAddress, amount, BaseAssetId, {
+  //   //   gasLimit: 10_000,
+  //   //   gasPrice: 10_000,
+  //   // });
+  //   const unlockedWallet = new WalletUnlocked(walletPrivateKey, provider!);
+  //   await unlockedWallet.transfer(transferAddress, amount, BaseAssetId, {
+  //     gasLimit: 10_000,
+  //     gasPrice: 10_000,
+  //   });
+  // };
 
   return (
     <main
@@ -116,7 +123,7 @@ export default function Home() {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
-            <Button onClick={transfer}>Trasnfer</Button>
+            <Button onClick={() => transfer()}>Transfer</Button>
           </div>
         </>
       ) : (

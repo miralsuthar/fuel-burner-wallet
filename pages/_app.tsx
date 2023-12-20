@@ -1,7 +1,8 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { Provider } from "fuels";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import { Toaster } from "@/components/ui/toaster";
 
 export const FuelContext = createContext<{ provider?: Provider }>({});
 
@@ -20,6 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <FuelContext.Provider value={{ provider }}>
+      <Toaster />
       <Component {...pageProps} />
     </FuelContext.Provider>
   );
