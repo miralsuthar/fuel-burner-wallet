@@ -86,13 +86,15 @@ export default function Home() {
             <Address address={wallet.address?.toString()} />
             <Balance balance={balance} refetch={() => refetch()} />
             {balance <= 0 && (
-              <Link
-                className="underline text-gray-400"
-                href={`https://faucet-beta-4.fuel.network/?address=${wallet.address.toString()}`}
-              >
+              <div className="text-center text-gray-400">
                 Get some funds from the faucet
-              </Link>
+                <iframe
+                  src={`https://faucet-beta-4.fuel.network/?address=${wallet.address.toString()}`}
+                  height={650}
+                ></iframe>
+              </div>
             )}
+
             <div className="w-max h-80 relative">
               <Image
                 src="/fuel-logo.png"
